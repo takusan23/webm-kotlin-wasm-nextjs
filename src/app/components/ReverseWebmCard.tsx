@@ -163,7 +163,13 @@ export default function ReverseWebmCard() {
             const videoFrame = await videoFramePromise
             if (!videoFrame) break
 
-            ctx?.drawImage(videoFrame, 0, 0)
+            // https://stackoverflow.com/questions/23104582/
+            if (canvasRef.current) {
+                var hRatio = canvasRef.current.width / videoFrame.displayWidth
+                var vRatio = canvasRef.current.height / videoFrame.displayHeight
+                var ratio = Math.min(hRatio, vRatio)
+                ctx?.drawImage(videoFrame, 0, 0, videoFrame.displayWidth, videoFrame.displayHeight, 0, 0, videoFrame.displayWidth * ratio, videoFrame.displayHeight * ratio)
+            }
 
             // 逆からとったフレームをエンコーダーに入れる
             const chunkPromise = videoEncodePromise()
@@ -349,7 +355,7 @@ export default function ReverseWebmCard() {
                 isRunning
                     ? <>
                         <p>プレビュー Canvas</p>
-                        <canvas ref={canvasRef} width={500} height={500} />
+                        <canvas ref={canvasRef} width={300} height={300} />
                     </>
                     : <input
                         onChange={(ev) => handleFileSelect(ev.target.files?.[0])}

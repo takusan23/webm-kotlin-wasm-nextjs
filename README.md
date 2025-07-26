@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# webm-kotlin-wasm-nextjs
 
-## Getting Started
+`JavaScript`の`MediaRecorder`で作った`WebM`ファイルはシークできないので、シークできるようにする Kotlin/Wasm 製の Web ページ。  
+また、実験的に WebM を逆再生して保存する機能も搭載しています（WebCodecs）。
 
-First, run the development server:
+![スクショ](https://oekakityou.negitoro.dev/original/d333d141-58c6-4afb-b195-604baf4e8258.png)
 
-```bash
+# URL
+
+https://webm.negitoro.dev
+
+# 開発者向け
+静的サイトです。すべての処理はブラウザで完結します
+
+## 開発環境構築
+
+```shell
+npm i
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`localhost:3000`を開きます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Kotlin 側の開発環境構築
+`WebM`の読み書き（パーサー、ミキサー）は`Kotlin`で実装されており、`Kotlin/Wasm`へビルドし、`Next.js`で読み込むことで利用しています。  
+`himari-webm-kotlin-multiplatform`フォルダがそれです。
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+https://github.com/takusan23/HimariWebmKotlinMultiplatform
 
-## Learn More
+の`npm ライブラリ作成`を参考にしてください。コピーして`npm i`するだけですが。
 
-To learn more about Next.js, take a look at the following resources:
+## デプロイ手順
+以下のコマンドだと思います。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```shell
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`out`フォルダに静的サイトの成果物が生成されます。
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+このサイトは`S3 + CloudFront`なので、ビルドしてビルド結果の中身を`S3`バケットに入れて、`CloudFront`のキャッシュを消す必要があります。  
+`GitHub Actions`作ってないので、手動で更新してね...

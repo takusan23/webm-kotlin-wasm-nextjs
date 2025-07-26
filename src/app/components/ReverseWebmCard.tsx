@@ -342,6 +342,7 @@ export default function ReverseWebmCard() {
         // ダウンロード
         const blob = new Blob([jsByteArray], { type: 'video/webm' })
         BlobDownloadTool.download(blob, `reverse-video-webcodecs-${Date.now()}.webm`)
+        setRunning(false)
     }
 
     return (

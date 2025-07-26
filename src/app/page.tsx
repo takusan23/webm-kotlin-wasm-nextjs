@@ -1,6 +1,11 @@
+import { Metadata } from "next";
 import FixSeekableWebmCard from "./components/FixSeekableWebmCard";
 import MediaRecorderCard from "./components/MediaRecorderCard";
 import ReverseWebmCard from "./components/ReverseWebmCard";
+
+export const metadata: Metadata = {
+  title: 'Kotlin/Wasm + Next.js で出来た WebM ツール'
+}
 
 export default function Home() {
   return (

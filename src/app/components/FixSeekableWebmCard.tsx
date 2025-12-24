@@ -20,7 +20,7 @@ export default function FixSeekableWebmCard() {
         const fixWebmByteArray = fixSeekableWebm(intArray as any)
 
         // Blob にして保存
-        const blob = new Blob([KotlinToJsArray.toJsByteArray(fixWebmByteArray)], { type: 'video/webm' })
+        const blob = new Blob([KotlinToJsArray.toJsByteArray(fixWebmByteArray) as ArrayBufferView<ArrayBuffer>], { type: 'video/webm' })
         BlobDownloadTool.download(blob, `fix-seekable-webm-kotlinwasm-${Date.now()}.webm`)
         setRunning(false)
     }
